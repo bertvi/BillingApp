@@ -1,0 +1,8 @@
+{% if bill %}
+    <ul>
+        <li>{{ bill.reference }}</li>
+        <li>{{ bill.invoice_total }}</li>
+    </ul>
+{% else %}
+    <p>No bills found.</p>
+{% endif %}

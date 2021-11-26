@@ -1,0 +1,9 @@
+{% if bills %}
+    <ul>
+    {% for bill in bills %}
+        <li><a href="/bills/{{ bill.id }}/">{{ bill.reference }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No bills found.</p>
+{% endif %}
