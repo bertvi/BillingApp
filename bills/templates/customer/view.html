@@ -1,0 +1,22 @@
+{% if customers %}
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>E-mail</th>
+            <th>Reg. no.</th>
+            <th>Phone</th>
+        </tr>
+    {% for customer in customers %}
+        <tr>
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.address }}</td>
+            <td>{{ customer.email }}</td>
+            <td>{{ customer.reg_no }}</td>
+            <td>{{ customer.phone }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+{% else %}
+    <p>No data found.</p>
+{% endif %}

@@ -4,8 +4,8 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render
 from django.template import loader
 
-from bills.forms import CompanyForm, BillForm
-from bills.models import Billing, Company
+from bills.forms import CompanyForm, BillForm, CustomerForm
+from bills.models import Billing, Company, Customer
 
 
 def index(request):
@@ -42,7 +42,7 @@ def create_company(request):
         # check whether it's valid:
         if form.is_valid():
             save_company(form.data)
-            template = loader.get_template('bills/company/saved.html')
+            template = loader.get_template('company/saved.html')
             return HttpResponse(template.render({}, request))
 
     # if a GET (or any other method) we'll create a blank form
@@ -86,7 +86,7 @@ def create_bill(request):
         # check whether it's valid:
         if form.is_valid():
             save_bill(form.data)
-            template = loader.get_template('bills/bills/saved.html')
+            template = loader.get_template('bills/saved.html')
             return HttpResponse(template.render({}, request))
 
     # if a GET (or any other method) we'll create a blank form
@@ -108,3 +108,45 @@ def save_bill(data):
                    invoice_vat=data.get('invoice_vat'),
                    invoice_total=data.get('invoice_total'))
     bill.save()
+
+
+def create_customer(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = CustomerForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            save_customer(form.data)
+            template = loader.get_template('customer/saved.html')
+            return HttpResponse(template.render({}, request))
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = CompanyForm()
+
+    return render(request, 'company/company.html', {'form': form})
+
+
+def save_customer(data):
+    customer = Customer(created=datetime.datetime.now(),
+                        changed=datetime.datetime.now(),
+                        name=data.get('name'),
+                        address=data.get('address'),
+                        email=data.get('email'),
+                        reg_no=data.get('reg_no'),
+                        phone=data.get('phone'))
+    customer.save()
+
+
+def list_customers(request):
+    try:
+        customers = Customer.objects.all()
+        template = loader.get_template('customer/view.html')
+        context = {
+            'customers': customers,
+        }
+    except Customer.DoesNotExist:
+        raise Http404("No customers found")
+
+    return HttpResponse(template.render(context, request))

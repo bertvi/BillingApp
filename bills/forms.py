@@ -1,5 +1,6 @@
 from django import forms
 
+
 class CompanyForm(forms.Form):
     name = forms.CharField(label='Company name', max_length=100)
     address = forms.CharField(label='Address', max_length=100)
@@ -8,6 +9,14 @@ class CompanyForm(forms.Form):
     phone = forms.CharField(label='Phone number', max_length=100)
     iban = forms.CharField(label='Bank account IBAN', max_length=100)
     vat_no = forms.CharField(label='VAT number', max_length=100)
+
+
+class CustomerForm(forms.Form):
+    name = forms.CharField(label='Name', max_length=100)
+    address = forms.CharField(label='Address', max_length=100)
+    email = forms.CharField(label='E-mail', max_length=100)
+    reg_no = forms.CharField(label='Registration number', max_length=100)
+    phone = forms.CharField(label='Phone number', max_length=100)
 
 
 class BillForm(forms.Form):
